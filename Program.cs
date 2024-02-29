@@ -1,4 +1,4 @@
-using System.Globalization;
+using ToEmoji.Routers;
 using ToEmoji.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,35 +18,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapEmojiEndpoints();
 
-app.MapGet("{language}/emojis", (string language) => {
-    if(XmlService.RegionExists(language))
-        return Results.Ok(XmlService.GetEmojis(language));
-    return Results.NotFound();
-});
-
-app.MapGet("{language}/emojis/{name}", (string language, string name) => {
-    if(XmlService.RegionExists(language))
-    {
-        var emoji = XmlService.GetEmoji(name, language);
-        if(emoji is not null)
-            return Results.Ok(emoji);
-    }
-    return Results.NotFound();
-});
-
-app.MapGet("{language}/emojis/search/{name}", (string language, string name) => {
-    if(XmlService.RegionExists(language))
-    {
-        var emoji = XmlService.GetEmojis(name, language);
-        if(emoji is not null)
-            return Results.Ok(emoji);
-    }
-    return Results.NotFound();
-});
-
-app.MapGet("/regions", () => {
-    return Results.Ok(XmlService.GetRegions());
+app.MapGet("/regions", async () =>
+{
+    return Results.Ok(await XmlService.GetRegionsAsync());
 });
 
 app.Run();
