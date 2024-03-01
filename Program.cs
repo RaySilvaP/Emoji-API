@@ -1,5 +1,5 @@
+using ToEmoji.Controllers;
 using ToEmoji.Routers;
-using ToEmoji.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +22,7 @@ app.MapEmojiEndpoints();
 
 app.MapGet("/regions", async () =>
 {
-    return Results.Ok(await XmlService.GetRegionsAsync());
+    return Results.Ok(await RegionController.GetRegionsAsync());
 });
 
 app.Run();

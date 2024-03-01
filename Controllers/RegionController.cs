@@ -1,16 +1,14 @@
-using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace ToEmoji.Services;
+namespace ToEmoji.Controllers;
 
-public static class XmlService
+public static class RegionController
 {
-    private static readonly string _directory = Path.Combine("./", "Data", "common", "annotations");
     public static async Task<IQueryable<Region>> GetRegionsAsync()
     {
-        var files = Directory.GetFiles(_directory, "*.xml");
+        var directory = Path.Combine("./", "Data", "common", "annotations");
+        var files = Directory.GetFiles(directory, "*.xml");
         XmlReaderSettings settings = new()
         {
             DtdProcessing = DtdProcessing.Parse,
